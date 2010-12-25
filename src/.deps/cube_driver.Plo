@@ -1,0 +1,417 @@
+cube_driver.lo: cube_driver.c ../config.h /usr/include/xorg/xorg-server.h \
+ /usr/include/stdlib.h /usr/include/features.h \
+ /usr/include/bits/predefs.h /usr/include/sys/cdefs.h \
+ /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+ /usr/include/gnu/stubs-32.h \
+ /usr/lib/gcc/powerpc-linux-gnu/4.4.5/include/stddef.h \
+ /usr/include/sys/types.h /usr/include/bits/types.h \
+ /usr/include/bits/typesizes.h /usr/include/time.h /usr/include/endian.h \
+ /usr/include/bits/endian.h /usr/include/bits/byteswap.h \
+ /usr/include/sys/select.h /usr/include/bits/select.h \
+ /usr/include/bits/sigset.h /usr/include/bits/time.h \
+ /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h \
+ /usr/include/alloca.h /usr/include/stdio.h /usr/include/libio.h \
+ /usr/include/_G_config.h /usr/include/wchar.h \
+ /usr/lib/gcc/powerpc-linux-gnu/4.4.5/include/stdarg.h \
+ /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+ /usr/include/bits/stdio.h /usr/include/string.h /usr/include/xlocale.h \
+ /usr/include/bits/string.h /usr/include/bits/string2.h \
+ /usr/include/fcntl.h /usr/include/bits/fcntl.h /usr/include/unistd.h \
+ /usr/include/bits/posix_opt.h /usr/include/bits/confname.h \
+ /usr/include/getopt.h /usr/include/sys/ioctl.h \
+ /usr/include/bits/ioctls.h /usr/include/asm/ioctls.h \
+ /usr/include/asm/ioctl.h /usr/include/asm-generic/ioctl.h \
+ /usr/include/bits/ioctl-types.h /usr/include/termios.h \
+ /usr/include/bits/termios.h /usr/include/sys/ttydefaults.h \
+ /usr/include/sys/mman.h /usr/include/bits/mman.h /usr/include/linux/fb.h \
+ /usr/include/linux/types.h /usr/include/asm/types.h \
+ /usr/include/asm-generic/int-ll64.h /usr/include/asm/bitsperlong.h \
+ /usr/include/asm-generic/bitsperlong.h /usr/include/linux/posix_types.h \
+ /usr/include/linux/stddef.h /usr/include/asm/posix_types.h \
+ /usr/include/linux/i2c.h /usr/include/xorg/xaa.h \
+ /usr/include/xorg/gcstruct.h /usr/include/xorg/gc.h /usr/include/X11/X.h \
+ /usr/include/X11/Xdefs.h /usr/include/X11/Xproto.h \
+ /usr/include/X11/Xmd.h /usr/include/X11/Xprotostr.h \
+ /usr/include/xorg/screenint.h /usr/include/xorg/misc.h \
+ /usr/include/X11/Xosdefs.h /usr/include/X11/Xfuncproto.h \
+ /usr/include/xorg/os.h /usr/include/X11/Xfuncs.h \
+ /usr/lib/gcc/powerpc-linux-gnu/4.4.5/include-fixed/limits.h \
+ /usr/lib/gcc/powerpc-linux-gnu/4.4.5/include-fixed/syslimits.h \
+ /usr/include/limits.h /usr/include/bits/posix1_lim.h \
+ /usr/include/bits/local_lim.h /usr/include/linux/limits.h \
+ /usr/include/bits/posix2_lim.h /usr/include/math.h \
+ /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h \
+ /usr/include/bits/huge_vall.h /usr/include/bits/inf.h \
+ /usr/include/bits/nan.h /usr/include/bits/mathdef.h \
+ /usr/include/bits/mathcalls.h /usr/include/bits/mathinline.h \
+ /usr/include/assert.h /usr/include/ctype.h /usr/include/xorg/pixmap.h \
+ /usr/include/xorg/regionstr.h /usr/include/xorg/miscstruct.h \
+ /usr/include/pixman-1/pixman.h /usr/include/pixman-1/pixman-version.h \
+ /usr/include/stdint.h /usr/include/bits/wchar.h \
+ /usr/include/xorg/region.h /usr/include/xorg/privates.h \
+ /usr/include/xorg/dix.h /usr/include/xorg/window.h \
+ /usr/include/xorg/input.h /usr/include/xorg/xkbrules.h \
+ /usr/include/xorg/events.h /usr/include/xorg/cursor.h \
+ /usr/include/xorg/geext.h /usr/include/X11/extensions/geproto.h \
+ /usr/include/X11/extensions/ge.h /usr/include/X11/extensions/XI.h \
+ /usr/include/xorg/resource.h /usr/include/xorg/dixaccess.h \
+ /usr/include/xorg/pixmapstr.h /usr/include/xorg/xf86str.h \
+ /usr/include/xorg/scrnintstr.h /usr/include/xorg/bstore.h \
+ /usr/include/xorg/bstorestr.h /usr/include/xorg/colormap.h \
+ /usr/include/xorg/validate.h /usr/include/xorg/colormapst.h \
+ /usr/include/X11/Xarch.h /usr/include/xorg/xf86Module.h \
+ /usr/include/xorg/xf86Opt.h /usr/include/xorg/xf86Pci.h \
+ /usr/include/pciaccess.h /usr/include/inttypes.h \
+ /usr/include/xorg/xf86fbman.h /usr/include/xorg/picturestr.h \
+ /usr/include/xorg/glyphstr.h /usr/include/X11/extensions/renderproto.h \
+ /usr/include/X11/extensions/render.h /usr/include/xorg/picture.h \
+ /usr/include/xorg/xf86Cursor.h /usr/include/xorg/mipointer.h \
+ /usr/include/xorg/colormapst.h /usr/include/xorg/xf86.h \
+ /usr/include/X11/extensions/randr.h /usr/include/xorg/propertyst.h \
+ /usr/include/xorg/property.h /usr/include/xorg/xf86_OSproc.h \
+ /usr/include/xorg/opaque.h /usr/include/xorg/globals.h \
+ /usr/include/xorg/mipointer.h /usr/include/xorg/mibstore.h \
+ /usr/include/xorg/micmap.h /usr/include/xorg/xf86DDC.h \
+ /usr/include/xorg/edid.h /usr/include/xorg/xf86i2c.h \
+ /usr/include/xorg/globals.h /usr/include/X11/extensions/dpms.h \
+ /usr/include/X11/extensions/dpmsconst.h /usr/include/xorg/fb.h \
+ /usr/include/xorg/servermd.h /usr/include/xorg/windowstr.h \
+ /usr/include/xorg/mi.h /usr/include/X11/fonts/font.h \
+ /usr/include/X11/fonts/fsmasks.h /usr/include/xorg/migc.h \
+ /usr/include/xorg/mibstore.h /usr/include/xorg/fbrop.h \
+ /usr/include/xorg/micoord.h /usr/include/xorg/xf86cmap.h \
+ /usr/include/xorg/shadowfb.h
+
+../config.h:
+
+/usr/include/xorg/xorg-server.h:
+
+/usr/include/stdlib.h:
+
+/usr/include/features.h:
+
+/usr/include/bits/predefs.h:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/bits/wordsize.h:
+
+/usr/include/gnu/stubs.h:
+
+/usr/include/gnu/stubs-32.h:
+
+/usr/lib/gcc/powerpc-linux-gnu/4.4.5/include/stddef.h:
+
+/usr/include/sys/types.h:
+
+/usr/include/bits/types.h:
+
+/usr/include/bits/typesizes.h:
+
+/usr/include/time.h:
+
+/usr/include/endian.h:
+
+/usr/include/bits/endian.h:
+
+/usr/include/bits/byteswap.h:
+
+/usr/include/sys/select.h:
+
+/usr/include/bits/select.h:
+
+/usr/include/bits/sigset.h:
+
+/usr/include/bits/time.h:
+
+/usr/include/sys/sysmacros.h:
+
+/usr/include/bits/pthreadtypes.h:
+
+/usr/include/alloca.h:
+
+/usr/include/stdio.h:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/wchar.h:
+
+/usr/lib/gcc/powerpc-linux-gnu/4.4.5/include/stdarg.h:
+
+/usr/include/bits/stdio_lim.h:
+
+/usr/include/bits/sys_errlist.h:
+
+/usr/include/bits/stdio.h:
+
+/usr/include/string.h:
+
+/usr/include/xlocale.h:
+
+/usr/include/bits/string.h:
+
+/usr/include/bits/string2.h:
+
+/usr/include/fcntl.h:
+
+/usr/include/bits/fcntl.h:
+
+/usr/include/unistd.h:
+
+/usr/include/bits/posix_opt.h:
+
+/usr/include/bits/confname.h:
+
+/usr/include/getopt.h:
+
+/usr/include/sys/ioctl.h:
+
+/usr/include/bits/ioctls.h:
+
+/usr/include/asm/ioctls.h:
+
+/usr/include/asm/ioctl.h:
+
+/usr/include/asm-generic/ioctl.h:
+
+/usr/include/bits/ioctl-types.h:
+
+/usr/include/termios.h:
+
+/usr/include/bits/termios.h:
+
+/usr/include/sys/ttydefaults.h:
+
+/usr/include/sys/mman.h:
+
+/usr/include/bits/mman.h:
+
+/usr/include/linux/fb.h:
+
+/usr/include/linux/types.h:
+
+/usr/include/asm/types.h:
+
+/usr/include/asm-generic/int-ll64.h:
+
+/usr/include/asm/bitsperlong.h:
+
+/usr/include/asm-generic/bitsperlong.h:
+
+/usr/include/linux/posix_types.h:
+
+/usr/include/linux/stddef.h:
+
+/usr/include/asm/posix_types.h:
+
+/usr/include/linux/i2c.h:
+
+/usr/include/xorg/xaa.h:
+
+/usr/include/xorg/gcstruct.h:
+
+/usr/include/xorg/gc.h:
+
+/usr/include/X11/X.h:
+
+/usr/include/X11/Xdefs.h:
+
+/usr/include/X11/Xproto.h:
+
+/usr/include/X11/Xmd.h:
+
+/usr/include/X11/Xprotostr.h:
+
+/usr/include/xorg/screenint.h:
+
+/usr/include/xorg/misc.h:
+
+/usr/include/X11/Xosdefs.h:
+
+/usr/include/X11/Xfuncproto.h:
+
+/usr/include/xorg/os.h:
+
+/usr/include/X11/Xfuncs.h:
+
+/usr/lib/gcc/powerpc-linux-gnu/4.4.5/include-fixed/limits.h:
+
+/usr/lib/gcc/powerpc-linux-gnu/4.4.5/include-fixed/syslimits.h:
+
+/usr/include/limits.h:
+
+/usr/include/bits/posix1_lim.h:
+
+/usr/include/bits/local_lim.h:
+
+/usr/include/linux/limits.h:
+
+/usr/include/bits/posix2_lim.h:
+
+/usr/include/math.h:
+
+/usr/include/bits/huge_val.h:
+
+/usr/include/bits/huge_valf.h:
+
+/usr/include/bits/huge_vall.h:
+
+/usr/include/bits/inf.h:
+
+/usr/include/bits/nan.h:
+
+/usr/include/bits/mathdef.h:
+
+/usr/include/bits/mathcalls.h:
+
+/usr/include/bits/mathinline.h:
+
+/usr/include/assert.h:
+
+/usr/include/ctype.h:
+
+/usr/include/xorg/pixmap.h:
+
+/usr/include/xorg/regionstr.h:
+
+/usr/include/xorg/miscstruct.h:
+
+/usr/include/pixman-1/pixman.h:
+
+/usr/include/pixman-1/pixman-version.h:
+
+/usr/include/stdint.h:
+
+/usr/include/bits/wchar.h:
+
+/usr/include/xorg/region.h:
+
+/usr/include/xorg/privates.h:
+
+/usr/include/xorg/dix.h:
+
+/usr/include/xorg/window.h:
+
+/usr/include/xorg/input.h:
+
+/usr/include/xorg/xkbrules.h:
+
+/usr/include/xorg/events.h:
+
+/usr/include/xorg/cursor.h:
+
+/usr/include/xorg/geext.h:
+
+/usr/include/X11/extensions/geproto.h:
+
+/usr/include/X11/extensions/ge.h:
+
+/usr/include/X11/extensions/XI.h:
+
+/usr/include/xorg/resource.h:
+
+/usr/include/xorg/dixaccess.h:
+
+/usr/include/xorg/pixmapstr.h:
+
+/usr/include/xorg/xf86str.h:
+
+/usr/include/xorg/scrnintstr.h:
+
+/usr/include/xorg/bstore.h:
+
+/usr/include/xorg/bstorestr.h:
+
+/usr/include/xorg/colormap.h:
+
+/usr/include/xorg/validate.h:
+
+/usr/include/xorg/colormapst.h:
+
+/usr/include/X11/Xarch.h:
+
+/usr/include/xorg/xf86Module.h:
+
+/usr/include/xorg/xf86Opt.h:
+
+/usr/include/xorg/xf86Pci.h:
+
+/usr/include/pciaccess.h:
+
+/usr/include/inttypes.h:
+
+/usr/include/xorg/xf86fbman.h:
+
+/usr/include/xorg/picturestr.h:
+
+/usr/include/xorg/glyphstr.h:
+
+/usr/include/X11/extensions/renderproto.h:
+
+/usr/include/X11/extensions/render.h:
+
+/usr/include/xorg/picture.h:
+
+/usr/include/xorg/xf86Cursor.h:
+
+/usr/include/xorg/mipointer.h:
+
+/usr/include/xorg/colormapst.h:
+
+/usr/include/xorg/xf86.h:
+
+/usr/include/X11/extensions/randr.h:
+
+/usr/include/xorg/propertyst.h:
+
+/usr/include/xorg/property.h:
+
+/usr/include/xorg/xf86_OSproc.h:
+
+/usr/include/xorg/opaque.h:
+
+/usr/include/xorg/globals.h:
+
+/usr/include/xorg/mipointer.h:
+
+/usr/include/xorg/mibstore.h:
+
+/usr/include/xorg/micmap.h:
+
+/usr/include/xorg/xf86DDC.h:
+
+/usr/include/xorg/edid.h:
+
+/usr/include/xorg/xf86i2c.h:
+
+/usr/include/xorg/globals.h:
+
+/usr/include/X11/extensions/dpms.h:
+
+/usr/include/X11/extensions/dpmsconst.h:
+
+/usr/include/xorg/fb.h:
+
+/usr/include/xorg/servermd.h:
+
+/usr/include/xorg/windowstr.h:
+
+/usr/include/xorg/mi.h:
+
+/usr/include/X11/fonts/font.h:
+
+/usr/include/X11/fonts/fsmasks.h:
+
+/usr/include/xorg/migc.h:
+
+/usr/include/xorg/mibstore.h:
+
+/usr/include/xorg/fbrop.h:
+
+/usr/include/xorg/micoord.h:
+
+/usr/include/xorg/xf86cmap.h:
+
+/usr/include/xorg/shadowfb.h:
