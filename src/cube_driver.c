@@ -163,26 +163,6 @@ static SymTabRec CUBEChipsets[] = {
 };
 
 
-/*
- * List of symbols from other modules that this module references.  This
- * list is used to tell the loader that it is OK for symbols here to be
- * unresolved providing that it hasn't been told that they haven't been
- * told that they are essential via a call to xf86LoaderReqSymbols() or
- * xf86LoaderReqSymLists().  The purpose is this is to avoid warnings about
- * unresolved symbols that are not required.
- */
-
-static const char *fbSymbols[] = {
-  "fbScreenInit",
-  "fbPictureInit",
-  NULL
-};
-
-static const char *shadowSymbols[] = {
-  "ShadowFBInit",
-  NULL
-};
-
 /**
 * This is the algorithm borrowed from libSDL port for gc-linux,
 * made by Albert "isobel" Herranz
@@ -367,12 +347,6 @@ cubeSetup(pointer module, pointer opts, int *errmaj, int *errmin)
     /* This module should be loaded only once */
     *errmaj = LDR_ONCEONLY;
     xf86AddDriver(&CUBE, module, 0);
-
-    /*
-     * Tell the loader about symbols from other modules that this module
-     * might refer to.
-     */
-    LoaderRefSymLists(fbSymbols, shadowSymbols, NULL);
 
     /*
      * The return value must be non-NULL on success even though there
@@ -680,14 +654,11 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
     return FALSE;
   }
 
-  xf86LoaderReqSymLists(fbSymbols, NULL);
-
   /* Load the shadow framebuffer */
   if (!xf86LoadSubModule(pScrn, "shadowfb")) {
     CUBEFreeRec(pScrn);
     return FALSE;
   }
-  xf86LoaderReqSymLists(shadowSymbols, NULL);
 
   return TRUE;
 }
