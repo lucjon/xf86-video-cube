@@ -875,6 +875,10 @@ FFLAGS
 ac_ct_F77
 LIBTOOL
 PKG_CONFIG
+HAVE_XEXTPROTO_71_FALSE
+HAVE_XEXTPROTO_71_TRUE
+XEXT_LIBS
+XEXT_CFLAGS
 XORG_CFLAGS
 XORG_LIBS
 PCIACCESS_TRUE
@@ -916,6 +920,8 @@ FFLAGS
 PKG_CONFIG
 XORG_CFLAGS
 XORG_LIBS
+XEXT_CFLAGS
+XEXT_LIBS
 PCIACCESS_CFLAGS
 PCIACCESS_LIBS'
 
@@ -1538,6 +1544,8 @@ Some influential environment variables:
   PKG_CONFIG  path to pkg-config utility
   XORG_CFLAGS C compiler flags for XORG, overriding pkg-config
   XORG_LIBS   linker flags for XORG, overriding pkg-config
+  XEXT_CFLAGS C compiler flags for XEXT, overriding pkg-config
+  XEXT_LIBS   linker flags for XEXT, overriding pkg-config
   PCIACCESS_CFLAGS
               C compiler flags for PCIACCESS, overriding pkg-config
   PCIACCESS_LIBS
@@ -20218,6 +20226,65 @@ cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 
 #include "xorg-server.h"
+#if !defined DPMSExtension
+#error DPMSExtension not defined
+#endif
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+eval "echo \"\$ac_try_echo\"") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  eval "echo \"\$as_me:\$LINENO: \$? = \$ac_status\"" >&5
+  (exit $ac_status); } && {
+         test -z "$ac_c_werror_flag" ||
+         test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  _EXT_CHECK=yes
+else
+  eval "echo \"\$as_me: failed program was:\"" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+        _EXT_CHECK=no
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+        CFLAGS="$SAVE_CFLAGS"
+        { eval "echo \"\$as_me:\$LINENO: checking if DPMSExtension is defined\"" >&5
+    echo  $ECHO_N "checking if DPMSExtension is defined... $ECHO_C" >&6; }
+        { eval "echo \"\$as_me:\$LINENO: result: \$_EXT_CHECK\"" >&5
+eval "echo \"\$_EXT_CHECK\"" >&6; }
+        if test "$_EXT_CHECK" != no; then
+                REQUIRED_MODULES="$REQUIRED_MODULES xextproto"
+        fi
+
+
+        SAVE_CFLAGS="$CFLAGS"
+        CFLAGS="$CFLAGS -I`pkg-config --variable=sdkdir xorg-server`"
+        cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include "xorg-server.h"
 #if !defined RANDR
 #error RANDR not defined
 #endif
@@ -20385,6 +20452,7 @@ echo "${ECHO_T}$_EXT_CHECK" >&6; }
 # Checks for pkg-config packages
 
 
+
 if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
 	if test -n "$ac_tool_prefix"; then
   # Extract the first word of "${ac_tool_prefix}pkg-config", so it can be a program name with args.
@@ -20546,7 +20614,6 @@ else
 fi
 
 
-
 if test $pkg_failed = yes; then
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -20614,6 +20681,82 @@ else
 echo "${ECHO_T}yes" >&6; }
 	:
 fi
+pkg_failed=no
+{ eval "echo \"\$as_me:\$LINENO: checking for XEXT\"" >&5
+ echo $ECHO_N "checking for XEXT... $ECHO_C" >&6; }
+
+if test -n "$XEXT_CFLAGS"; then
+    pkg_cv_XEXT_CFLAGS="$XEXT_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { (eval "echo \"\$as_me:\$LINENO: \$PKG_CONFIG --exists --print-errors \"xextproto >= 7.0.99.1\"\"") >&5
+  ($PKG_CONFIG --exists --print-errors "xextproto >= 7.0.99.1") 2>&5
+  ac_status=$?
+  eval "echo \"\$as_me:\$LINENO: \$? = \$ac_status\"" >&5
+  (exit $ac_status); }; then
+  pkg_cv_XEXT_CFLAGS=`$PKG_CONFIG --cflags "xextproto >= 7.0.99.1" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$XEXT_LIBS"; then
+    pkg_cv_XEXT_LIBS="$XEXT_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { (eval "echo \"\$as_me:\$LINENO: \$PKG_CONFIG --exists --print-errors \"xextproto >= 7.0.99.1\"\"") >&5
+  ($PKG_CONFIG --exists --print-errors "xextproto >= 7.0.99.1") 2>&5
+  ac_status=$?
+  eval "echo \"\$as_me:\$LINENO: \$? = \$ac_status\"" >&5
+  (exit $ac_status); }; then
+  pkg_cv_XEXT_LIBS=`$PKG_CONFIG --libs "xextproto >= 7.0.99.1" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+if test $pkg_failed = yes; then
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        XEXT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "xextproto >= 7.0.99.1" 2>&1`
+        else
+	        XEXT_PKG_ERRORS=`$PKG_CONFIG --print-errors "xextproto >= 7.0.99.1" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$XEXT_PKG_ERRORS" >&5
+
+	{ eval "echo \"\$as_me:\$LINENO: result: no\"" >&5
+eval "echo \"no\"" >&6; }
+                HAVE_XEXTPROTO_71="no"
+elif test $pkg_failed = untried; then
+	HAVE_XEXTPROTO_71="no"
+else
+	XEXT_CFLAGS=$pkg_cv_XEXT_CFLAGS
+	XEXT_LIBS=$pkg_cv_XEXT_LIBS
+        { eval "echo \"\$as_me:\$LINENO: result: yes\"" >&5
+eval "echo \"yes\"" >&6; }
+	HAVE_XEXTPROTO_71="yes";
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_XEXTPROTO_71 1
+_ACEOF
+
+fi
+ if  test "$HAVE_XEXTPROTO_71" = "yes" ; then
+  HAVE_XEXTPROTO_71_TRUE=
+  HAVE_XEXTPROTO_71_FALSE='#'
+else
+  HAVE_XEXTPROTO_71_TRUE='#'
+  HAVE_XEXTPROTO_71_FALSE=
+fi
+
 sdkdir=$(pkg-config --variable=sdkdir xorg-server)
 
  if test "x$PCIACCESS" = xyes; then
@@ -21169,6 +21312,13 @@ if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"am__fastdepCC\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${HAVE_XEXTPROTO_71_TRUE}" && test -z "${HAVE_XEXTPROTO_71_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"HAVE_XEXTPROTO_71\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"HAVE_XEXTPROTO_71\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi

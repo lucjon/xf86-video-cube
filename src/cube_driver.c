@@ -52,8 +52,12 @@
 #include "micmap.h"
 #include "xf86DDC.h"
 #include "globals.h"
+#ifdef HAVE_XEXTPROTO_71
+#include <X11/extensions/dpmsconst.h>
+#else
 #define DPMS_SERVER
 #include <X11/extensions/dpms.h>
+#endif
 #include "fb.h"
 #include "xf86cmap.h"
 #include "shadowfb.h"
@@ -919,7 +923,7 @@ CUBEModeInit(ScrnInfoPtr pScrn, DisplayModePtr mode)
   {
     xf86DrvMsg(pScrn->scrnIndex, X_ERROR, 
                "Selected width = %d and height = %d is not supported by cube/wii\n", width, height);
-    return FALSE;
+    return TRUE;
   }
 
   refresh = (mode->Clock * 1.0e3)/((double)(mode->HTotal) * 
@@ -1134,8 +1138,8 @@ CUBERefreshAll(ScrnInfoPtr pScrn)
 {
   BoxRec box;
   box.x1 = 0;
-  box.x2 = 640;
+  box.x2 = 640; /*Hardcoded due to bugs as below, once fixed replace with: pScrn->currentMode->HDisplay;*/
   box.y1 = 0;
-  box.y2 = 480;
+  box.y2 = 480; /*Hardcoded due to bugs, for more resolutions replace with: pScrn->currentMode->VDisplay*/
   CUBERefreshArea(pScrn, 1, &box);
 }
