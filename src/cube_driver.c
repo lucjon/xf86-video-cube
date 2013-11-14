@@ -32,6 +32,7 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -51,13 +52,16 @@
 #include "mibstore.h"
 #include "micmap.h"
 #include "xf86DDC.h"
+
 #include "globals.h"
+
 #ifdef HAVE_XEXTPROTO_71
 #include <X11/extensions/dpmsconst.h>
 #else
 #define DPMS_SERVER
 #include <X11/extensions/dpms.h>
 #endif
+
 #include "fb.h"
 #include "xf86cmap.h"
 #include "shadowfb.h"
