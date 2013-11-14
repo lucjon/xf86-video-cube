@@ -390,7 +390,7 @@ CUBEFreeRec(ScrnInfoPtr pScrn)
 {
   if (pScrn->driverPrivate == NULL)
     return;
-  xfree(pScrn->driverPrivate);
+  free(pScrn->driverPrivate);
   pScrn->driverPrivate = NULL;
 }
 
@@ -457,7 +457,7 @@ CUBEProbe(DriverPtr drv, int flags)
 		}
 	   
 	}
-	xfree(devSections);
+	free(devSections);
 
 	return foundScreen;
 }
@@ -560,7 +560,7 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
   xf86CollectOptions(pScrn, NULL);
 
   /* Process the options */
-  if (!(pCube->Options = xalloc(sizeof(CUBEOptions))))
+  if (!(pCube->Options = malloc(sizeof(CUBEOptions))))
     return FALSE;
   memcpy(pCube->Options, CUBEOptions, sizeof(CUBEOptions));
   xf86ProcessOptions(pScrn->scrnIndex, pScrn->options, pCube->Options);
@@ -828,7 +828,7 @@ CUBECloseScreen(int scrnIndex, ScreenPtr pScreen)
 
   if (pScrn->vtSema)
       CUBERestore(pScrn, TRUE);
-  xfree(pCube->ShadowPtr);
+  free(pCube->ShadowPtr);
 
   pScrn->vtSema = FALSE;
 
@@ -860,7 +860,7 @@ CUBEFreeScreen(int scrnIndex, int flags)
    * get called routinely at the end of a server generation.
    */
   if (pCube && pCube->ShadowPtr)
-    xfree(pCube->ShadowPtr);
+    free(pCube->ShadowPtr);
   CUBEFreeRec(xf86Screens[scrnIndex]);
 }
 
