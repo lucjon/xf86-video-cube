@@ -37,7 +37,6 @@ AM_MAINTAINER_MODE
 # Checks for programs.
 AC_DISABLE_STATIC
 AC_PROG_LIBTOOL
-AC_PROG_CC
 
 AH_TOP([#include "xorg-server.h"])
 
