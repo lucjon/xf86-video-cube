@@ -1,4 +1,3 @@
-# $Id: Makefile.am,v 1.1 2008/11/05 12:14:51 nuvalo Exp $
 #
 # Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
 # 
