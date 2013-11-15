@@ -54,7 +54,7 @@ If you downloaded the precompiled binaries, you can install the driver manually.
 configure the xserver to use this driver.  
 For Debian based operating systems, copy the module into the correct location with the following:  
 
-	"sudo cp /usr/local/lib/xorg/modules/drivers/cube_driver.* /usr/lib/xorg/modules/drivers"
+	"sudo cp /usr/local/lib/xorg/modules/drivers/cube_drv.* /usr/lib/xorg/modules/drivers"
 
 <br>
 
@@ -106,4 +106,4 @@ Edit the screen section, and replace the next options:
 - Albert Herranz, for his SDL Gamecube driver for Wii Linux.  
 - Henrik Harmsen, for his glide Xfree86 driver which gave the basic structure.  
 - Alan Hourihane and Michel Dänzer, for their framebuffer xfree86 driver.  
-- All the GC-Linux team, for their efforts in porting Linux to the Gamecube/Wii consoles and any other contributes that may have been missed.  
+- All the GC-Linux team, for their efforts in porting Linux to the Gamecube/Wii consoles and any other contributers that may have been missed.  
