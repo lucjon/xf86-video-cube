@@ -71,7 +71,7 @@ core
 *.tar.bz2
 *.tar.gz
 #
-#		Add & Override patterns for xf86-video-sis 
+#		Add & Override patterns for xf86-video-cube 
 #
 #		Edit the following section as needed
 # For example, !report.pc overrides *.pc. See 'man gitignore'
