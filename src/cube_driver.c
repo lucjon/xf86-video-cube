@@ -2,7 +2,7 @@
 /* 
    XFree86 driver for Gamecube/Wii framebuffer(tm).
 
-   This driver and its documenttion are based on XFree86 Glide driver
+   This driver and its documentation are based on XFree86 Glide driver
    made by Henrik Harmsen (hch@cd.chalmers.se or Henrik.Harmsen@erv.ericsson.se).
 
    The Gamecube/Wii kernel videocard driver lets us draw 2D images directly
@@ -23,7 +23,7 @@
    2008-17-7
    - First release, version 1.0
    - Bugs found:
-      - Some parts of the screen arent updated until some interaction with them
+      - Some parts of the screen aren't updated until some interaction with them
       - Take in count more compatible resolutions, like PAL
 
    
@@ -138,7 +138,7 @@ initFrameBuffer(ScrnInfoPtr pScrn);
 /* 
  * This contains the functions needed by the server after loading the
  * driver module.  It must be supplied, and gets added the driver list by
- * the Module Setup funtion in the dynamic case.  In the static case a
+ * the Module Setup function in the dynamic case.  In the static case a
  * reference to this is compiled in, and this requires that the name of
  * this DriverRec be an upper-case version of the driver name.
  */
