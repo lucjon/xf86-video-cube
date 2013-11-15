@@ -42,7 +42,7 @@
 #include <sys/mman.h>
 //#include <asm/page.h>
 #include <linux/fb.h>
-#include "xaa.h"
+
 #include "xf86Cursor.h"
 #include "colormapst.h"
 #include "xf86.h"
