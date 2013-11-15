@@ -106,4 +106,4 @@ Edit the screen section, and replace the next options:
 - Albert Herranz, for his SDL Gamecube driver for Wii Linux.  
 - Henrik Harmsen, for his glide Xfree86 driver which gave the basic structure.  
 - Alan Hourihane and Michel Dänzer, for their framebuffer xfree86 driver.  
-- All the GC-Linux team, for their efforts in porting Linux to the Gamecube/Wii consoles and any other contributers that may have been missed.  
+- All the GC-Linux team, for their efforts in porting Linux to the Gamecube/Wii consoles and any other contributors that may have been missed.  
