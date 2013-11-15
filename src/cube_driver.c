@@ -49,7 +49,6 @@
 #include "xf86_OSproc.h"
 //#include "xf86_ansic.h"
 #include "mipointer.h"
-#include "mibstore.h"
 #include "micmap.h"
 #include "xf86DDC.h"
 
@@ -748,7 +747,6 @@ CUBEScreenInit(int scrnIndex, ScreenPtr pScreen, int argc, char **argv)
   /* must be after RGB ordering fixed */
   fbPictureInit (pScreen, 0, 0);
 
-  miInitializeBackingStore(pScreen);
   xf86SetBlackWhitePixels(pScreen);
   xf86SetBackingStore(pScreen);
 
