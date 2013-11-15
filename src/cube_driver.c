@@ -67,10 +67,6 @@
 
 #define TRUE 1
 #define FALSE 0
-#ifdef NULL
-#undef NULL
-#endif
-#define NULL 0
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 
@@ -127,12 +123,12 @@ static void	CUBEDisplayPowerManagementSet(ScrnInfoPtr pScrn,
 */
 static int
 initFrameBuffer(ScrnInfoPtr pScrn);
-#define CUBE_VERSION 1.0
+#define CUBE_VERSION 1.4.3
 #define CUBE_NAME "CUBE"
 #define CUBE_DRIVER_NAME "cube"
 #define CUBE_MAJOR_VERSION 1
-#define CUBE_MINOR_VERSION 0
-#define CUBE_PATCHLEVEL 0
+#define CUBE_MINOR_VERSION 4
+#define CUBE_PATCHLEVEL 3
 
 /* 
  * This contains the functions needed by the server after loading the
