@@ -1,4 +1,5 @@
-#  Copyright 2005 Adam Jackson.
+#
+#  Copyright © 2005 Adam Jackson.
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a
 #  copy of this software and associated documentation files (the "Software"),
@@ -19,6 +20,7 @@
 #  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 # Process this file with autoconf to produce a configure script
+#
 
 # Initialize Autoconf
 AC_PREREQ([2.60])

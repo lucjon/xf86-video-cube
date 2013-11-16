@@ -21,11 +21,11 @@ it will work: You need a framebuffer device created on /dev/. Just write
 is an __xservername__ driver for Gamecube/Wii console video boards, and for
 any yuv2 framebuffer device. This driver is a bit special because Wii and Gamecube
 video boards uses a video framebuffer that needs to be in YUV2 color format, and 
-the Xserver usually works with RGB color formats. Therefore, this driver works in
-too much like the fbdev driver, but translating the colours from RGB to YUV2 format.
+the Xserver usually works with RGB color formats. Therefore, this driver works a lot
+the fbdev driver, except this driver translates the colours from RGB to YUV2 format.
 It is implemented with the help of a "shadow" framebuffer that resides entirely
 in RAM. Selected portions of this shadow framebuffer are then copied out to the 
-framebuffer device at the right time. Because of this, the speed of the driver
+framebuffer device at the right time. Due to this, the speed of the driver
 is very dependent on the CPU. 
 .PP
 This driver requires that you have created a framebuffer device.(Which can, at the
