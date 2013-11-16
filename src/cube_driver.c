@@ -47,7 +47,6 @@
 #include "colormapst.h"
 #include "xf86.h"
 #include "xf86_OSproc.h"
-//#include "xf86_ansic.h"
 #include "mipointer.h"
 #include "micmap.h"
 #include "xf86DDC.h"
