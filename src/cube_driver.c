@@ -1137,6 +1137,6 @@ CUBERefreshAll(ScrnInfoPtr pScrn)
   box.x1 = 0;
   box.x2 = 640; /*Hardcoded due to bugs as below, once fixed replace with: pScrn->currentMode->HDisplay;*/
   box.y1 = 0;
-  box.y2 = 480; /*Hardcoded due to bugs, for more resolutions replace with: pScrn->currentMode->VDisplay*/
+  box.y2 = pScrn->currentMode->VDisplay;
   CUBERefreshArea(pScrn, 1, &box);
 }
