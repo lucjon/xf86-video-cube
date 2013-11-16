@@ -123,7 +123,7 @@ static void	CUBEDisplayPowerManagementSet(ScrnInfoPtr pScrn,
 */
 static int
 initFrameBuffer(ScrnInfoPtr pScrn);
-#define CUBE_VERSION 1.4.3
+#define CUBE_VERSION 1.4-3
 #define CUBE_NAME "CUBE"
 #define CUBE_DRIVER_NAME "cube"
 #define CUBE_MAJOR_VERSION 1
