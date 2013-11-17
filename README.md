@@ -60,9 +60,11 @@ can be done to copy the module into the correct location:
 	"sudo cp /usr/local/lib/xorg/modules/drivers/cube_drv.* /usr/lib/xorg/modules/drivers"
 
 May also need to run the following to switch drivers  
+
 	"sudo dpkg-reconfigure xserver-xorg"
 
 (Xorg will need restarted before the driver can used following the installation)  
+
 <br>
 
 ****************************************
