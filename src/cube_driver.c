@@ -43,13 +43,11 @@
 //#include <asm/page.h>
 #include <linux/fb.h>
 
-#include "xf86Cursor.h"
 #include "colormapst.h"
 #include "xf86.h"
 #include "xf86_OSproc.h"
 #include "mipointer.h"
 #include "micmap.h"
-#include "xf86DDC.h"
 
 #include "globals.h"
 
