@@ -423,17 +423,16 @@ CUBEProbe(DriverPtr drv, int flags)
 	  
 	    dev = xf86FindOptionValue(devSections[i]->options,"cube");
 
- 	 	  pScrn = NULL;
-  	  int entity;
+	 	pScrn = NULL;
+		int entity;
 
-		  entity = xf86ClaimFbSlot(drv, 0,
-						devSections[i], TRUE);
-		  pScrn = xf86ConfigFbEntity(pScrn,0,entity,
+		entity = xf86ClaimFbSlot(drv, 0, devSections[i], TRUE);
+		pScrn = xf86ConfigFbEntity(pScrn,0,entity,
 						 NULL,NULL,NULL,NULL);
 		   
 		if (pScrn) {
-		    foundScreen = TRUE;
-		    pScrn->driverVersion = CUBE_VERSION;
+			CUBEPtr pCube;
+			pScrn->driverVersion = CUBE_VERSION;
 		    pScrn->driverName    = CUBE_DRIVER_NAME;
 		    pScrn->name	    = CUBE_NAME;
 		    pScrn->Probe	   = CUBEProbe;
@@ -442,11 +441,20 @@ CUBEProbe(DriverPtr drv, int flags)
 		    pScrn->EnterVT	 = CUBEEnterVT;
 		    pScrn->LeaveVT	 = CUBELeaveVT;
 		    pScrn->FreeScreen    = CUBEFreeScreen;
-		    
+
+			/* Allocate the GLIDERec driverPrivate */
+			if (!GLIDEGetRec(pScrn))
+				break;
+
+			pCube = CUBEPTR(pScrn);
+			pCube->SST_Index = sst;
+
 		    xf86DrvMsg(pScrn->scrnIndex, X_INFO,
 				 "using %s\n", dev ? dev : "default device");
+			
+			foundScreen = TRUE;
 		}
-	   
+
 	}
 	free(devSections);
 
@@ -464,17 +472,12 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
   MessageType from;
   int i;
   ClockRangePtr clockRanges;
-  int sst;
-
 
   if (flags & PROBE_DETECT) return FALSE;
 
   /* Check the number of entities, and fail if it isn't one. */
   if (pScrn->numEntities != 1)
     return FALSE;
-
-  sst =0;// (int)(pScrn->driverPrivate);
-  pScrn->driverPrivate = NULL;
 
   /* Set pScrn->monitor */
   pScrn->monitor = pScrn->confScreen->monitor;
@@ -536,14 +539,11 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
   /* We use a programmable clock */
   pScrn->progClock = TRUE;
 
-  /* Allocate the CUBERec driverPrivate */
-  if (!CUBEGetRec(pScrn)) {
-    return FALSE;
-  }
-
   pCube = CUBEPTR(pScrn);
+
   //time to setup our framebuffer
   initFrameBuffer(pScrn);
+
   /* Get the entity */
   pCube->pEnt = xf86GetEntityInfo(pScrn->entityList[0]);
 
@@ -564,8 +564,6 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
   xf86DrvMsg(pScrn->scrnIndex, from, 
 		 "Cube card will be %s when exiting server.\n", 
 		 pCube->OnAtExit ? "ON" : "OFF");
-
-  pCube->SST_Index = sst;
 
   /*
    * If the user has specified the amount of memory in the XF86Config
