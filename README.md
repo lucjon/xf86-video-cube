@@ -42,20 +42,27 @@ You will need a gcc compiler, and the xserver-xorg development libraries and hea
 - *Some dependencies may have been missed.  If a direct dependency is found, append it the list.*
 <br>
 <br>
-To build the driver form source, uncompress the tarball with the sources, and type:
+To build the driver form source, uncompress the tarball with the sources (if not alreadey uncompressed), and type the following into a terminal:
 
-        "./configure && make && sudo make install"  
+        "./autogen.sh && ./configure && make"
+
+<br>
 
 ****************************************
 **3) - How to install:**
 ****************************************
 
 If you downloaded the precompiled binaries, you can install the driver manually.  You need an already installed xorg-server enviroment. Copy the contents inside the "bin" directory (cube_drv.so, cube_drv.la) to the xserver drivers directory ("/usr/local/lib/xorg/modules/drivers","/usr/lib/xorg/modules/drivers" or "/usr/X11R7/lib/xorg/modules/drivers"), and
-configure the xserver to use this driver.  
-For Debian based operating systems, copy the module into the correct location with the following:  
+configure the xserver to use this driver.  For Debian based operating systems, if the driver was built on the Wii requiring the driver, the following
+can be done to copy the module into the correct location:  
 
+	"sudo make install"
 	"sudo cp /usr/local/lib/xorg/modules/drivers/cube_drv.* /usr/lib/xorg/modules/drivers"
 
+May also need to run the following to switch drivers  
+	"sudo dpkg-reconfigure xserver-xorg"
+
+(Xorg will need restarted before the driver can used following the installation)  
 <br>
 
 ****************************************
