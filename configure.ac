@@ -61,8 +61,6 @@ AC_ARG_ENABLE(pciaccess,     AS_HELP_STRING([--enable-pciaccess],
 			     [PCIACCESS=$enableval], [PCIACCESS=no])
 
 # Store the list of server defined optional extensions in REQUIRED_MODULES
-XORG_DRIVER_CHECK_EXT(RANDR, randrproto)
-XORG_DRIVER_CHECK_EXT(RENDER, renderproto)
 XORG_DRIVER_CHECK_EXT(DPMSExtension, xextproto)
 XORG_DRIVER_CHECK_EXT(XV, videoproto)
 
