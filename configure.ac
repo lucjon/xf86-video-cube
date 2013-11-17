@@ -79,8 +79,16 @@ if test "x$PCIACCESS" = xyes; then
 fi
 
 # Checks for libraries.
+# Placeholder for libarary checks...
+CUBE_LDFLAGS="-Os"
+AC_SUBST([CUBE_LDFLAGS])
 
 
+#Checks for headers.
+#Placeholder for header checks...
+
+CUBE_CFLAGS="-Os"
+AC_SUBST([CUBE_CFLAGS])
 AC_SUBST([moduledir])
 
 DRIVER_NAME=cube

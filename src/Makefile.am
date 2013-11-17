@@ -25,8 +25,9 @@
 # -avoid-version prevents gratuitous .0.0.0 version numbers on the end
 # _ladir passes a dummy rpath to libtool so the thing will actually link
 # TODO: -nostdlib/-Bstatic/-lgcc platform magic, not installing the .a, etc.
-AM_CFLAGS = @XORG_CFLAGS@  -DMODULEDIR=\""@moduledir@\""
+AM_CFLAGS = @XORG_CFLAGS@ @CUBE_CFLAGS@
 cube_drv_la_LTLIBRARIES = cube_drv.la
+glide_drv_la_LIBADD = @CUBE_LDFLAGS@
 cube_drv_la_LDFLAGS = -module -avoid-version
 cube_drv_ladir = @moduledir@/drivers
 

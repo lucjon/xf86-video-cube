@@ -23,8 +23,8 @@
    2008-17-7
    - First release, version 1.0
    - Bugs found:
-      - Some parts of the screen aren't updated until some interaction with them
-      - Take in count more compatible resolutions, like PAL
+	- Some parts of the screen aren't updated until some interaction with them
+	- Take in count more compatible resolutions, like PAL
 
    
 */
@@ -67,13 +67,13 @@
 #define TRUE 1
 #define FALSE 0
 
-typedef signed char        s8;
-typedef unsigned char      u8;
+typedef signed char	  s8;
+typedef unsigned char	u8;
 typedef signed short int   s16;
 typedef unsigned short int u16;
 typedef signed long int    s32;
 typedef unsigned long int  u32;
-typedef u8                 bool;
+typedef u8		     bool;
  
 /* Card-specific driver information */
 
@@ -81,19 +81,19 @@ typedef u8                 bool;
 
 
 typedef struct {
-  u8*                 ShadowPtr;
-  u32                 ShadowPitch;
-  u32                 SST_Index;
+  u8*		     ShadowPtr;
+  u32		     ShadowPitch;
+  u32		     SST_Index;
   CloseScreenProcPtr  CloseScreen;
-  Bool                Blanked;
-  Bool                OnAtExit;
-  Bool                CubeInitiated;
-  EntityInfoPtr       pEnt;
-  OptionInfoPtr       Options;
-  s32                 mapped_offset;
-  s32                 mapped_memlen;
-  u8*                 mapped_mem;
-  int                 console_fd;  
+  Bool		    Blanked;
+  Bool		    OnAtExit;
+  Bool		    CubeInitiated;
+  EntityInfoPtr	 pEnt;
+  OptionInfoPtr	 Options;
+  s32		     mapped_offset;
+  s32		     mapped_memlen;
+  u8*		     mapped_mem;
+  int		     console_fd;  
 } CUBERec, *CUBEPtr;
 
 static const OptionInfoRec * CUBEAvailableOptions(int chipid, int busid);
@@ -112,12 +112,10 @@ static void     CUBERestore(ScrnInfoPtr pScrn, Bool Closing);
 static void     CUBERefreshAll(ScrnInfoPtr pScrn);
 
 static void	CUBEDisplayPowerManagementSet(ScrnInfoPtr pScrn,
-                                               int PowerManagementMode,
-                                               int flags);
+							     int PowerManagementMode,
+							     int flags);
 
 
-/*static int LoadGlide(void);
-*/
 static int
 initFrameBuffer(ScrnInfoPtr pScrn);
 #define CUBE_VERSION 1.4-3
@@ -151,9 +149,9 @@ typedef enum {
 } CUBEOpts;
 
 static const OptionInfoRec CUBEOptions[] = {
-  { OPTION_ON_AT_EXIT, "OnAtExit",       OPTV_BOOLEAN, {0}, FALSE },
-  { OPTION_CUBEDEVICE, "CubeDevice",   OPTV_INTEGER, {0}, FALSE },
-  { -1,	               NULL,             OPTV_NONE,    {0}, FALSE }
+  { OPTION_ON_AT_EXIT, "OnAtExit",	OPTV_BOOLEAN, {0}, FALSE },
+  { OPTION_CUBEDEVICE, "CubeDevice",	OPTV_INTEGER, {0}, FALSE },
+  { -1,			NULL,		OPTV_NONE,    {0}, FALSE }
 };
 
 /* Supported chipsets */
@@ -240,9 +238,9 @@ static void initRGB2YUVTables(void)
 
 #if 0
 		/* fast (approximated) scaling to 8 bits, thanks to Masken */
-	        r = (r << 3) | (r >> 2);
-        	g = (g << 2) | (g >> 4);
-        	b = (b << 3) | (b >> 2);
+		  r = (r << 3) | (r >> 2);
+	  	g = (g << 2) | (g >> 4);
+	  	b = (b << 3) | (b >> 2);
 #endif
 		/* scaling to 8 bits */
 		r = (r * 0xff) / 0x1f;
@@ -337,9 +335,8 @@ static pointer
 cubeSetup(pointer module, pointer opts, int *errmaj, int *errmin)
 {
   static Bool setupDone = FALSE;
-  pointer ret;
   int errmaj2 = 0, errmin2 = 0;
-    
+
   if (!setupDone) 
   {
 
@@ -354,10 +351,10 @@ cubeSetup(pointer module, pointer opts, int *errmaj, int *errmin)
      */
     return (pointer)1;
   } 
-  else 
+  else
   {
-    if (errmaj) 
-      *errmaj = LDR_ONCEONLY;
+    if (errmaj)
+	*errmaj = LDR_ONCEONLY;
     return NULL;
   }
 }
@@ -432,24 +429,24 @@ CUBEProbe(DriverPtr drv, int flags)
   	  int entity;
 
 		  entity = xf86ClaimFbSlot(drv, 0,
-					      devSections[i], TRUE);
+						devSections[i], TRUE);
 		  pScrn = xf86ConfigFbEntity(pScrn,0,entity,
-					       NULL,NULL,NULL,NULL);
+						 NULL,NULL,NULL,NULL);
 		   
 		if (pScrn) {
 		    foundScreen = TRUE;
 		    pScrn->driverVersion = CUBE_VERSION;
 		    pScrn->driverName    = CUBE_DRIVER_NAME;
-		    pScrn->name          = CUBE_NAME;
-		    pScrn->Probe         = CUBEProbe;
-		    pScrn->PreInit       = CUBEPreInit;
+		    pScrn->name	    = CUBE_NAME;
+		    pScrn->Probe	   = CUBEProbe;
+		    pScrn->PreInit	 = CUBEPreInit;
 		    pScrn->ScreenInit    = CUBEScreenInit;
-		    pScrn->EnterVT       = CUBEEnterVT;
-		    pScrn->LeaveVT       = CUBELeaveVT;
+		    pScrn->EnterVT	 = CUBEEnterVT;
+		    pScrn->LeaveVT	 = CUBELeaveVT;
 		    pScrn->FreeScreen    = CUBEFreeScreen;
 		    
 		    xf86DrvMsg(pScrn->scrnIndex, X_INFO,
-			       "using %s\n", dev ? dev : "default device");
+				 "using %s\n", dev ? dev : "default device");
 		}
 	   
 	}
@@ -495,8 +492,8 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
     break;
   default:
     xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
-               "Given depth (%d) is not supported by this driver\n",
-               pScrn->depth);
+		   "Given depth (%d) is not supported by this driver\n",
+		   pScrn->depth);
     return FALSE;
   }
   xf86PrintDepthBpp(pScrn);
@@ -510,10 +507,10 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
     rgb zeros = {0, 0, 0};
 
     if (!xf86SetWeight(pScrn, zeros, zeros)) {
-      return FALSE;
+	return FALSE;
     } else {
-      /* XXX check that weight returned is supported */
-      ;
+	/* XXX check that weight returned is supported */
+	;
     }
   }
 
@@ -524,8 +521,8 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
   /* We don't support DirectColor at > 8bpp */
   if (pScrn->depth > 8 && pScrn->defaultVisual != TrueColor) {
     xf86DrvMsg(pScrn->scrnIndex, X_ERROR, "Given default visual"
-               " (%s) is not supported at depth %d\n",
-               xf86GetVisualName(pScrn->defaultVisual), pScrn->depth);
+		   " (%s) is not supported at depth %d\n",
+		   xf86GetVisualName(pScrn->defaultVisual), pScrn->depth);
     return FALSE;
   }
 
@@ -534,7 +531,7 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
     Gamma zeros = {0.0, 0.0, 0.0};
 
     if (!xf86SetGamma(pScrn, zeros)) {
-      return FALSE;
+	return FALSE;
     }
   }
 
@@ -567,8 +564,8 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
     from = X_CONFIG;
 
   xf86DrvMsg(pScrn->scrnIndex, from, 
-             "Cube card will be %s when exiting server.\n", 
-             pCube->OnAtExit ? "ON" : "OFF");
+		 "Cube card will be %s when exiting server.\n", 
+		 pCube->OnAtExit ? "ON" : "OFF");
 
   pCube->SST_Index = sst;
 
@@ -596,14 +593,14 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
 
   /* Select valid modes from those available */
   i = xf86ValidateModes(pScrn, pScrn->monitor->Modes,
-                        pScrn->display->modes, clockRanges,
-                        NULL, 256, 2048,
-                        pScrn->bitsPerPixel, 128, 2048,
-                        pScrn->display->virtualX,
-                        pScrn->display->virtualY,
-                        pScrn->videoRam * 1024,
-                        LOOKUP_BEST_REFRESH);
-    
+				pScrn->display->modes, clockRanges,
+				NULL, 256, 2048,
+				pScrn->bitsPerPixel, 128, 2048,
+				pScrn->display->virtualX,
+				pScrn->display->virtualY,
+				pScrn->videoRam * 1024,
+				LOOKUP_BEST_REFRESH);
+
   if (i == -1) {
     CUBEFreeRec(pScrn);
     return FALSE;
@@ -625,14 +622,14 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
   /* Do some checking, we will not support a virtual framebuffer larger than
      the visible screen. */
   if (pScrn->currentMode->HDisplay != pScrn->virtualX || 
-      pScrn->currentMode->VDisplay != pScrn->virtualY ||
-      pScrn->displayWidth != pScrn->virtualX)
+	pScrn->currentMode->VDisplay != pScrn->virtualY ||
+	pScrn->displayWidth != pScrn->virtualX)
   {
     xf86DrvMsg(pScrn->scrnIndex, X_WARNING, 
-               "Virtual size doesn't equal display size. Forcing virtual size to equal display size.\n");
+		   "Virtual size doesn't equal display size. Forcing virtual size to equal display size.\n");
     xf86DrvMsg(pScrn->scrnIndex, X_WARNING,
-               "(Virtual size: %dx%d, Display size: %dx%d)\n", pScrn->virtualX, pScrn->virtualY,
-               pScrn->currentMode->HDisplay, pScrn->currentMode->VDisplay);
+		   "(Virtual size: %dx%d, Display size: %dx%d)\n", pScrn->virtualX, pScrn->virtualY,
+		   pScrn->currentMode->HDisplay, pScrn->currentMode->VDisplay);
     /* I'm not entirely sure this is "legal" but I hope so. */
     pScrn->virtualX = pScrn->currentMode->HDisplay;
     pScrn->virtualY = pScrn->currentMode->VDisplay;
@@ -647,7 +644,7 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
 
   /* Set display resolution */
   xf86SetDpi(pScrn, 0, 0);
-    
+
   /* Load fb */
   if (xf86LoadSubModule(pScrn, "fb") == NULL) {
     CUBEFreeRec(pScrn);
@@ -728,12 +725,12 @@ CUBEScreenInit(int scrnIndex, ScreenPtr pScreen, int argc, char **argv)
   visual = pScreen->visuals + pScreen->numVisuals;
   while (--visual >= pScreen->visuals) {
     if ((visual->class | DynamicClass) == DirectColor) {
-      visual->offsetRed = pScrn->offset.red;
-      visual->offsetGreen = pScrn->offset.green;
-      visual->offsetBlue = pScrn->offset.blue;
-      visual->redMask = pScrn->mask.red;
-      visual->greenMask = pScrn->mask.green;
-        visual->blueMask = pScrn->mask.blue;
+	visual->offsetRed = pScrn->offset.red;
+	visual->offsetGreen = pScrn->offset.green;
+	visual->offsetBlue = pScrn->offset.blue;
+	visual->redMask = pScrn->mask.red;
+	visual->greenMask = pScrn->mask.green;
+	  visual->blueMask = pScrn->mask.blue;
     }
   }
 
@@ -822,7 +819,7 @@ CUBECloseScreen(int scrnIndex, ScreenPtr pScreen)
   CUBEPtr pCube = CUBEPTR(pScrn);
 
   if (pScrn->vtSema)
-      CUBERestore(pScrn, TRUE);
+	CUBERestore(pScrn, TRUE);
   free(pCube->ShadowPtr);
 
   pScrn->vtSema = FALSE;
@@ -905,7 +902,7 @@ CUBEModeInit(ScrnInfoPtr pScrn, DisplayModePtr mode)
 #if 0
   ErrorF("mode->HDisplay = %d, pScrn->displayWidth = %d\n", mode->HDisplay, pScrn->displayWidth);
   ErrorF("mode->VDisplay = %d, mode->HTotal = %d, mode->VTotal = %d\n", 
-         mode->VDisplay, mode->HTotal, mode->VTotal);
+	   mode->VDisplay, mode->HTotal, mode->VTotal);
   ErrorF("mode->Clock = %d\n", mode->Clock);
 #endif
 
@@ -917,23 +914,23 @@ CUBEModeInit(ScrnInfoPtr pScrn, DisplayModePtr mode)
   if (!match)
   {
     xf86DrvMsg(pScrn->scrnIndex, X_ERROR, 
-               "Selected width = %d and height = %d is not supported by cube/wii\n", width, height);
+		   "Selected width = %d and height = %d is not supported by cube/wii\n", width, height);
     return TRUE;
   }
 
   refresh = (mode->Clock * 1.0e3)/((double)(mode->HTotal) * 
-                                   (double)(mode->VTotal));
+					     (double)(mode->VTotal));
 #if 0
   ErrorF("Calculated refresh rate for mode is %.2fHz\n",refresh);
 #endif
 
- 
-  r=initFrameBuffer(pScrn);    
-                    
+
+  r=initFrameBuffer(pScrn);
+
   if (!r)
   {
     xf86DrvMsg(pScrn->scrnIndex, X_ERROR, "grSstWinOpen returned %d. "
-               "You are probably trying to use a resolution that is not supported by your hardware.", r);
+		   "You are probably trying to use a resolution that is not supported by your hardware.", r);
     return FALSE;
   }
 
@@ -943,7 +940,7 @@ CUBEModeInit(ScrnInfoPtr pScrn, DisplayModePtr mode)
   return TRUE;
 }
 
-static void     
+static void
 CUBERestore(ScrnInfoPtr pScrn, Bool Closing)
 {
   CUBEPtr pCube;
@@ -1063,27 +1060,27 @@ static void CUBERefreshArea(ScrnInfoPtr pScrn, int num, BoxPtr pbox)
 
 	/* in bytes, src and dest are 16bpp */
 //	src = _this->hidden->buffer + (rect->y * pitch) + left * 2;
-        src=pCube->ShadowPtr + (pbox->y1 * pCube->ShadowPitch) + 
-            (left * 2);
-	      dst = pCube->mapped_mem + (pbox->y1 * pCube->ShadowPitch) + left * 2;
-	      mod = pCube->ShadowPitch - width * 2;
+	  src=pCube->ShadowPtr + (pbox->y1 * pCube->ShadowPitch) + 
+		(left * 2);
+		dst = pCube->mapped_mem + (pbox->y1 * pCube->ShadowPitch) + left * 2;
+		mod = pCube->ShadowPitch - width * 2;
 
-	      src32 = (u32 *) src;
-	      dst32 = (u32 *) dst;
-	      mod32 = mod / 4;
+		src32 = (u32 *) src;
+		dst32 = (u32 *) dst;
+		mod32 = mod / 4;
 
-	      while (height--) {
-		        i = width / 2;
+		while (height--) {
+			  i = width / 2;
 
-		        while (i--) {
-			            rgb = (u16 *) src32;
-			            *dst32++ = rgbrgb16toyuy2(rgb[0], rgb[1]);
-			            src32++;
-		        }
-           dst32 += mod32;
-		       src32 += mod32;
-        }
-        pbox++;
+			  while (i--) {
+					rgb = (u16 *) src32;
+					*dst32++ = rgbrgb16toyuy2(rgb[0], rgb[1]);
+					src32++;
+			  }
+	     dst32 += mod32;
+			 src32 += mod32;
+	  }
+	  pbox++;
    }
 }
 
@@ -1094,7 +1091,7 @@ static void CUBERefreshArea(ScrnInfoPtr pScrn, int num, BoxPtr pbox)
  */
 static void
 CUBEDisplayPowerManagementSet(ScrnInfoPtr pScrn, int PowerManagementMode,
-                               int flags)
+					 int flags)
 {
   CUBEPtr pCube = CUBEPTR(pScrn);
   static int oldmode = -1;
