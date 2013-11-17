@@ -404,7 +404,7 @@ CUBEIdentify(int flags)
 static Bool
 CUBEProbe(DriverPtr drv, int flags)
 {
-  int i;
+  int i, sst;
 	ScrnInfoPtr pScrn;
   GDevPtr *devSections;
 	int numDevSections;
@@ -443,7 +443,7 @@ CUBEProbe(DriverPtr drv, int flags)
 		    pScrn->FreeScreen    = CUBEFreeScreen;
 
 			/* Allocate the GLIDERec driverPrivate */
-			if (!GLIDEGetRec(pScrn))
+			if (!CUBEGetRec(pScrn))
 				break;
 
 			pCube = CUBEPTR(pScrn);
@@ -451,7 +451,7 @@ CUBEProbe(DriverPtr drv, int flags)
 
 		    xf86DrvMsg(pScrn->scrnIndex, X_INFO,
 				 "using %s\n", dev ? dev : "default device");
-			
+
 			foundScreen = TRUE;
 		}
 
@@ -460,7 +460,7 @@ CUBEProbe(DriverPtr drv, int flags)
 
 	return foundScreen;
 }
-	
+
 
 
 
