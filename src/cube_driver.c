@@ -703,21 +703,24 @@ CUBEScreenInit(SCREEN_INIT_ARGS_DECL)
 	miClearVisualTypes();
 
 	/* Setup the visuals we support. Only TrueColor. */
-	if (!miSetVisualTypes(pScrn->depth, miGetDefaultVisualMask(pScrn->depth), pScrn->rgbBits, pScrn->defaultVisual))
+	ret = miSetVisualTypes(pScrn->depth,
+							miGetDefaultVisualMask(pScrn->depth),
+							pScrn->rgbBits, pScrn->defaultVisual);
+	if (!ret)
 		return FALSE;
 
 	miSetPixmapDepths ();
 
 	pCube->ShadowPitch =
 			((pScrn->virtualX * pScrn->bitsPerPixel >> 3) + 3) & ~3L;
-  pCube->ShadowPtr = xnfalloc(pCube->ShadowPitch * pScrn->virtualY);
+	pCube->ShadowPtr = xnfalloc(pCube->ShadowPitch * pScrn->virtualY);
 
 
-  /*
-	* Call the framebuffer layer's ScreenInit function, and fill in other
-	* pScreen fields.
-	*/
-  ret = fbScreenInit(pScreen, pCube->ShadowPtr,
+	/*
+	 * Call the framebuffer layer's ScreenInit function, and fill in other
+	 * pScreen fields.
+	 */
+	ret = fbScreenInit(pScreen, pCube->ShadowPtr,
 					pScrn->virtualX, pScrn->virtualY,
 					pScrn->xDpi, pScrn->yDpi,
 					pScrn->displayWidth,
