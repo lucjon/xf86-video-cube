@@ -67,6 +67,8 @@
 #include "xf86cmap.h"
 #include "shadowfb.h"
 
+#include "compat-api.h"
+
 #define TRUE 1
 #define FALSE 0
 
@@ -103,12 +105,12 @@ static const OptionInfoRec * CUBEAvailableOptions(int chipid, int busid);
 static void CUBEIdentify(int flags);
 static Bool CUBEProbe(DriverPtr drv, int flags);
 static Bool CUBEPreInit(ScrnInfoPtr pScrn, int flags);
-static Bool CUBEScreenInit(int Index, ScreenPtr pScreen, int argc, char **argv);
-static Bool CUBEEnterVT(int scrnIndex, int flags);
-static void CUBELeaveVT(int scrnIndex, int flags);
-static Bool CUBECloseScreen(int scrnIndex, ScreenPtr pScreen);
+static Bool CUBEScreenInit(SCREEN_INIT_ARGS_DECL);
+static Bool CUBEEnterVT(VT_FUNC_ARGS_DECL);
+static void CUBELeaveVT(VT_FUNC_ARGS_DECL);
+static Bool CUBECloseScreen(CLOSE_SCREEN_ARGS_DECL);
 static Bool CUBESaveScreen(ScreenPtr pScreen, int mode);
-static void CUBEFreeScreen(int scrnIndex, int flags);
+static void CUBEFreeScreen(FREE_SCREEN_ARGS_DECL);
 static void CUBERefreshArea(ScrnInfoPtr pScrn, int num, BoxPtr pbox);
 static Bool CUBEModeInit(ScrnInfoPtr pScrn, DisplayModePtr mode);
 static void CUBERestore(ScrnInfoPtr pScrn, Bool Closing);
@@ -446,7 +448,7 @@ CUBEProbe(DriverPtr drv, int flags)
 			pScrn->LeaveVT = CUBELeaveVT;
 			pScrn->FreeScreen = CUBEFreeScreen;
 
-			/* Allocate the GLIDERec driverPrivate */
+			/* Allocate the CUBERec driverPrivate */
 			if (!CUBEGetRec(pScrn))
 				break;
 
@@ -665,7 +667,7 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
 /* Mandatory */
 /* This gets called at the start of each server generation */
 static Bool
-CUBEScreenInit(int scrnIndex, ScreenPtr pScreen, int argc, char **argv)
+CUBEScreenInit(SCREEN_INIT_ARGS_DECL)
 {
   ScrnInfoPtr pScrn;
   CUBEPtr pCube;
@@ -675,7 +677,7 @@ CUBEScreenInit(int scrnIndex, ScreenPtr pScreen, int argc, char **argv)
   /* 
 	* First get the ScrnInfoRec
 	*/
-  pScrn = xf86Screens[pScreen->myNum];
+  pScrn = xf86ScreenToScrn(pScreen);
 
   pCube = CUBEPTR(pScrn);
 
@@ -779,9 +781,9 @@ CUBEScreenInit(int scrnIndex, ScreenPtr pScreen, int argc, char **argv)
 
 /* Mandatory */
 static Bool
-CUBEEnterVT(int scrnIndex, int flags)
+CUBEEnterVT(VT_FUNC_ARGS_DECL)
 {
-  ScrnInfoPtr pScrn = xf86Screens[scrnIndex];
+  SCRN_INFO_PTR(arg);
   return CUBEModeInit(pScrn, pScrn->currentMode);
 }
 
@@ -794,9 +796,9 @@ CUBEEnterVT(int scrnIndex, int flags)
 
 /* Mandatory */
 static void
-CUBELeaveVT(int scrnIndex, int flags)
+CUBELeaveVT(VT_FUNC_ARGS_DECL)
 {
-  ScrnInfoPtr pScrn = xf86Screens[scrnIndex];
+  SCRN_INFO_PTR(arg);
   CUBERestore(pScrn, FALSE);
 }
 
@@ -809,9 +811,9 @@ CUBELeaveVT(int scrnIndex, int flags)
 
 /* Mandatory */
 static Bool
-CUBECloseScreen(int scrnIndex, ScreenPtr pScreen)
+CUBECloseScreen(CLOSE_SCREEN_ARGS_DECL)
 {
-  ScrnInfoPtr pScrn = xf86Screens[scrnIndex];
+  ScrnInfoPtr pScrn = xf86ScreenToScrn(pScreen);
   CUBEPtr pCube = CUBEPTR(pScrn);
 
   if (pScrn->vtSema)
@@ -831,7 +833,7 @@ CUBECloseScreen(int scrnIndex, ScreenPtr pScreen)
 		close(pCube->console_fd);
 		pCube->console_fd = -1;
 	}
-  return (*pScreen->CloseScreen)(scrnIndex, pScreen);
+  return (*pScreen->CloseScreen)(CLOSE_SCREEN_ARGS);
 }
 
 
@@ -839,9 +841,9 @@ CUBECloseScreen(int scrnIndex, ScreenPtr pScreen)
 
 /* Optional */
 static void
-CUBEFreeScreen(int scrnIndex, int flags)
+CUBEFreeScreen(FREE_SCREEN_ARGS_DECL)
 {
-  ScrnInfoPtr pScrn = xf86Screens[scrnIndex];
+  SCRN_INFO_PTR(arg);
   CUBEPtr pCube = CUBEPTR(pScrn);
   /*
 	* This only gets called when a screen is being deleted.  It does not
@@ -849,7 +851,7 @@ CUBEFreeScreen(int scrnIndex, int flags)
 	*/
   if (pCube && pCube->ShadowPtr)
 	 free(pCube->ShadowPtr);
-  CUBEFreeRec(xf86Screens[scrnIndex]);
+  CUBEFreeRec(pScrn);
 }
 
 
@@ -863,7 +865,7 @@ CUBESaveScreen(ScreenPtr pScreen, int mode)
   Bool unblank;
   
   unblank = xf86IsUnblank(mode);
-  pScrn = xf86Screens[pScreen->myNum];
+  pScrn = xf86ScreenToScrn(pScreen);
   pCube = CUBEPTR(pScrn);
   pCube->Blanked = !unblank;
   if (unblank)
@@ -1126,7 +1128,7 @@ CUBERefreshAll(ScrnInfoPtr pScrn)
 {
 	BoxRec box;
 	box.x1 = 0;
-	box.x2 = 640; /*Hardcoded due to bugs as below, once fixed replace with: pScrn->currentMode->HDisplay;*/
+	box.x2 = 640; /*Hardcoded due to bugs, once fixed replace with: pScrn->currentMode->HDisplay;*/
 	box.y1 = 0;
 	box.y2 = pScrn->currentMode->VDisplay;
 	CUBERefreshArea(pScrn, 1, &box);

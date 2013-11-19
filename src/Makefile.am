@@ -32,5 +32,5 @@ cube_drv_la_LDFLAGS = -module -avoid-version
 cube_drv_ladir = @moduledir@/drivers
 
 cube_drv_la_SOURCES = \
-         cube_driver.c
-
+	compat-api.h \
+	cube_driver.c
