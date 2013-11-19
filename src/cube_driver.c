@@ -78,8 +78,7 @@ typedef signed short int s16;
 typedef unsigned short int u16;
 typedef signed long int s32;
 typedef unsigned long int u32;
-typedef u8 bool;
- 
+
 /* Card-specific driver information */
 
 #define CUBEPTR(p) ((CUBEPtr)((p)->driverPrivate))
