@@ -471,7 +471,7 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
 {
 	CUBEPtr pCube;
 	MessageType from;
-	int i;
+	int ret;
 	ClockRangePtr clockRanges;
 
 	if (flags & PROBE_DETECT)
@@ -593,7 +593,7 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
 	clockRanges->doubleScanAllowed = TRUE;
 
 	/* Select valid modes from those available */
-	i = xf86ValidateModes(pScrn, pScrn->monitor->Modes,
+	ret = xf86ValidateModes(pScrn, pScrn->monitor->Modes,
 				pScrn->display->modes, clockRanges,
 				NULL, 256, 2048,
 				pScrn->bitsPerPixel, 128, 2048,
@@ -602,7 +602,7 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
 				pScrn->videoRam * 1024,
 				LOOKUP_BEST_REFRESH);
 
-	if (i == -1) {
+	if (ret == -1) {
 		CUBEFreeRec(pScrn);
 		return FALSE;
 	}
@@ -611,7 +611,7 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
 	xf86PruneDriverModes(pScrn);
 
 	/* If no valid modes, return */
-	if (i == 0 || pScrn->modes == NULL) {
+	if (ret == 0 || pScrn->modes == NULL) {
 		xf86DrvMsg(pScrn->scrnIndex, X_ERROR, "No valid modes found\n");
 		CUBEFreeRec(pScrn);
 		return FALSE;
@@ -882,7 +882,7 @@ static Bool
 CUBEModeInit(ScrnInfoPtr pScrn, DisplayModePtr mode)
 {
 	CUBEPtr pCube;
-	int r;
+	int ret;
 	int width, height;
 	double refresh;
 	Bool match = FALSE;
@@ -926,12 +926,12 @@ CUBEModeInit(ScrnInfoPtr pScrn, DisplayModePtr mode)
 #endif
 
 
-	r=initFrameBuffer(pScrn);
+	ret=initFrameBuffer(pScrn);
 
-	if (!r) {
+	if (!ret) {
 	 xf86DrvMsg(pScrn->scrnIndex, X_ERROR, "grSstWinOpen returned %d. "
 			"You are probably trying to use a resolution that is not "
-			"supported by your hardware.", r);
+			"supported by your hardware.", ret);
 	 return FALSE;
 	}
 
