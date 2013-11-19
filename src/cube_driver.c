@@ -9,7 +9,7 @@
  * driver for framebuffer, but it draws in RGB mode, and the framebuffer only
  * understands images un YUV2 format. So we need to parse that image and translate
  * from RGB to YUV2 before drawing in the framebuffer. This driver does basically
- * that job, using a virtual framebuffer (the Shadow FrameBuffer) where the Xserver 
+ * that job, using a virtual framebuffer (the Shadow FrameBuffer) where the Xserver
  * draws in RGB, and in certain moments we update the framebuffer with the image
  * in YUV2 format. This driver does not provide hardware acceleration, and only
  * supports 640x480-16bpp, but for now it is usable.
@@ -127,8 +127,8 @@ initFrameBuffer(ScrnInfoPtr pScrn);
 #define CUBE_NAME "CUBE"
 #define CUBE_DRIVER_NAME "cube"
 #define CUBE_MAJOR_VERSION 1
-#define CUBE_MINOR_VERSION 4
-#define CUBE_PATCHLEVEL 3
+#define CUBE_MINOR_VERSION 6
+#define CUBE_PATCHLEVEL 0
 
 /*
  * This contains the functions needed by the server after loading the
@@ -154,9 +154,9 @@ typedef enum {
 } CUBEOpts;
 
 static const OptionInfoRec CUBEOptions[] = {
-  { OPTION_ON_AT_EXIT, "OnAtExit", OPTV_BOOLEAN, {0}, FALSE },
-  { OPTION_CUBEDEVICE, "CubeDevice", OPTV_INTEGER, {0}, FALSE },
-  { -1, NULL, OPTV_NONE, {0}, FALSE }
+	{ OPTION_ON_AT_EXIT, "OnAtExit", OPTV_BOOLEAN, {0}, FALSE },
+	{ OPTION_CUBEDEVICE, "CubeDevice", OPTV_INTEGER, {0}, FALSE },
+	{ -1, NULL, OPTV_NONE, {0}, FALSE }
 };
 
 /* Supported chipsets */
@@ -241,17 +241,16 @@ static void initRGB2YUVTables(void)
 		g = ((i >> 5) & 0x3f);
 		b = ((i >> 0) & 0x1f);
 
-#if 0
 		/* fast (approximated) scaling to 8 bits, thanks to Masken */
 		r = (r << 3) | (r >> 2);
 		g = (g << 2) | (g >> 4);
 		b = (b << 3) | (b >> 2);
-#endif
+#if 0
 		/* scaling to 8 bits */
 		r = (r * 0xff) / 0x1f;
 		g = (g * 0xff) / 0x3f;
 		b = (b * 0xff) / 0x1f;
-
+#endif
 		RGB16toY[i] =
 			clamp(16, 235,
 				(r_Yr[r] + g_Yg_[g] + b_Yb[b]) >> RGB2YUV_SHIFT);
@@ -321,16 +320,16 @@ static MODULESETUPPROTO(cubeSetup);
 
 static XF86ModuleVersionInfo cubeVersRec =
 {
-  "cube",
-  MODULEVENDORSTRING,
-  MODINFOSTRING1,
-  MODINFOSTRING2,
-  XORG_VERSION_CURRENT,
-  CUBE_MAJOR_VERSION, CUBE_MINOR_VERSION, CUBE_PATCHLEVEL,
-  ABI_CLASS_VIDEODRV,			/* This is a video driver */
-  ABI_VIDEODRV_VERSION,
-  MOD_CLASS_VIDEODRV,
-  {0,0,0,0}
+	"cube",
+	MODULEVENDORSTRING,
+	MODINFOSTRING1,
+	MODINFOSTRING2,
+	XORG_VERSION_CURRENT,
+	CUBE_MAJOR_VERSION, CUBE_MINOR_VERSION, CUBE_PATCHLEVEL,
+	ABI_CLASS_VIDEODRV,			/* This is a video driver */
+	ABI_VIDEODRV_VERSION,
+	MOD_CLASS_VIDEODRV,
+	{0,0,0,0}
 };
 
 _X_EXPORT XF86ModuleData cubeModuleData = { &cubeVersRec, cubeSetup, NULL };
@@ -338,8 +337,8 @@ _X_EXPORT XF86ModuleData cubeModuleData = { &cubeVersRec, cubeSetup, NULL };
 static pointer
 cubeSetup(pointer module, pointer opts, int *errmaj, int *errmin)
 {
-  static Bool setupDone = FALSE;
-  int errmaj2 = 0, errmin2 = 0;
+	static Bool setupDone = FALSE;
+	int errmaj2 = 0, errmin2 = 0;
 
 	if (!setupDone)
 	{
@@ -358,9 +357,9 @@ cubeSetup(pointer module, pointer opts, int *errmaj, int *errmin)
   else
 	{
 	if (errmaj)
-	*errmaj = LDR_ONCEONLY;
+		*errmaj = LDR_ONCEONLY;
 	return NULL;
-  }
+	}
 }
 #endif /* XFree86LOADER */
 
@@ -435,7 +434,7 @@ CUBEProbe(DriverPtr drv, int flags)
 		entity = xf86ClaimFbSlot(drv, 0, devSections[i], TRUE);
 		pScrn = xf86ConfigFbEntity(pScrn,0,entity,
 						 NULL,NULL,NULL,NULL);
-			
+
 		if (pScrn) {
 			CUBEPtr pCube;
 			pScrn->driverVersion = CUBE_VERSION;
@@ -468,8 +467,6 @@ CUBEProbe(DriverPtr drv, int flags)
 }
 
 
-
-
 /* Mandatory */
 static Bool
 CUBEPreInit(ScrnInfoPtr pScrn, int flags)
@@ -498,104 +495,106 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
 		case 16: //We only sopport 16bpp
 			/* OK */
 		break;
-  default:
-	xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
+	default:
+		xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
 			"Given depth (%d) is not supported by this driver\n",
 			pScrn->depth);
-	return FALSE;
-  }
-  xf86PrintDepthBpp(pScrn);
+		return FALSE;
+	}
+	xf86PrintDepthBpp(pScrn);
 
 	/*
 	 * This must happen after pScrn->display has been set because
 	 * xf86SetWeight references it.
 	 */
 	if (pScrn->depth > 8) {
-	/* The defaults are OK for us */
-	rgb zeros = {0, 0, 0};
+		/* The defaults are OK for us */
+		rgb zeros = {0, 0, 0};
 
-	if (!xf86SetWeight(pScrn, zeros, zeros)) {
-		return FALSE;
-	} else {
-	/* XXX check that weight returned is supported */
-	;
+		if (!xf86SetWeight(pScrn, zeros, zeros)) {
+			return FALSE;
+		} else {
+			/* XXX check that weight returned is supported */
+			;
+		}
 	}
-  }
 
-  /* Set the default visual. */
-  if (!xf86SetDefaultVisual(pScrn, -1)) {
-	 return FALSE;
-  }
-  /* We don't support DirectColor at > 8bpp */
-  if (pScrn->depth > 8 && pScrn->defaultVisual != TrueColor) {
-	 xf86DrvMsg(pScrn->scrnIndex, X_ERROR, "Given default visual"
-			" (%s) is not supported at depth %d\n",
-			xf86GetVisualName(pScrn->defaultVisual), pScrn->depth);
-	 return FALSE;
-  }
+	/* Set the default visual. */
+	if (!xf86SetDefaultVisual(pScrn, -1)) {
+		return FALSE;
+	}
+	
+	/* We don't support DirectColor at > 8bpp */
+	if (pScrn->depth > 8 && pScrn->defaultVisual != TrueColor) {
+		xf86DrvMsg(pScrn->scrnIndex, X_ERROR, "Given default visual"
+		  " (%s) is not supported at depth %d\n",
+		  xf86GetVisualName(pScrn->defaultVisual), pScrn->depth);
+		return FALSE;
+	}
 
-  /* Set default gamma */
-  {
-	 Gamma zeros = {0.0, 0.0, 0.0};
+	/* Set default gamma */
+	Gamma zeros = {0.0, 0.0, 0.0};
 
-	 if (!xf86SetGamma(pScrn, zeros)) {
-	return FALSE;
-	 }
-  }
+	if (!xf86SetGamma(pScrn, zeros)) {
+		return FALSE;
+	}
 
-  /* We use a programmable clock */
-  pScrn->progClock = TRUE;
 
-  pCube = CUBEPTR(pScrn);
+	/* We use a programmable clock */
+	pScrn->progClock = TRUE;
 
-  //time to setup our framebuffer
-  initFrameBuffer(pScrn);
+	pCube = CUBEPTR(pScrn);
 
-  /* Get the entity */
-  pCube->pEnt = xf86GetEntityInfo(pScrn->entityList[0]);
+	//time to setup our framebuffer
+	initFrameBuffer(pScrn);
 
-  /* Collect all of the relevant option flags (fill in pScrn->options) */
-  xf86CollectOptions(pScrn, NULL);
+	/* Get the entity */
+	pCube->pEnt = xf86GetEntityInfo(pScrn->entityList[0]);
 
-  /* Process the options */
-  if (!(pCube->Options = malloc(sizeof(CUBEOptions))))
-	 return FALSE;
-  memcpy(pCube->Options, CUBEOptions, sizeof(CUBEOptions));
-  xf86ProcessOptions(pScrn->scrnIndex, pScrn->options, pCube->Options);
+	/* Collect all of the relevant option flags (fill in pScrn->options) */
+	xf86CollectOptions(pScrn, NULL);
 
-  pCube->OnAtExit = FALSE;
-  from = X_DEFAULT;
-  if (xf86GetOptValBool(pCube->Options, OPTION_ON_AT_EXIT, &(pCube->OnAtExit)))
-	 from = X_CONFIG;
+	/* Process the options */
+	if (!(pCube->Options = malloc(sizeof(CUBEOptions))))
+		return FALSE;
+	memcpy(pCube->Options, CUBEOptions, sizeof(CUBEOptions));
+	xf86ProcessOptions(pScrn->scrnIndex, pScrn->options, pCube->Options);
 
-  xf86DrvMsg(pScrn->scrnIndex, from, 
-		 "Cube card will be %s when exiting server.\n", 
-		 pCube->OnAtExit ? "ON" : "OFF");
+	pCube->OnAtExit = FALSE;
+	from = X_DEFAULT;
+	if (xf86GetOptValBool(pCube->Options, OPTION_ON_AT_EXIT, &(pCube->OnAtExit)))
+		from = X_CONFIG;
 
-  /*
-	* If the user has specified the amount of memory in the XF86Config
-	* file, we respect that setting.
-	*/
-  if (pCube->pEnt->device->videoRam != 0) {
-	 pScrn->videoRam = pCube->pEnt->device->videoRam;
-	 from = X_CONFIG;
-  } else {
-	 pScrn->videoRam = pCube->mapped_memlen; 
-	 from = X_PROBED;
-  }
+	xf86DrvMsg(pScrn->scrnIndex, from, 
+	  "Cube card will be %s when exiting server.\n", 
+	  pCube->OnAtExit ? "ON" : "OFF");
 
-  /* Set up clock ranges so that the xf86ValidateModes() function will not fail a mode because of the clock
-	  requirement (because we don't use the clock value anyway) */
-  clockRanges = xnfcalloc(sizeof(ClockRange), 1);
-  clockRanges->next = NULL;
-  clockRanges->minClock = 10000;
-  clockRanges->maxClock = 300000;
-  clockRanges->clockIndex = -1;		/* programmable */
-  clockRanges->interlaceAllowed = TRUE;
-  clockRanges->doubleScanAllowed = TRUE;
+	/*
+	 * If the user has specified the amount of memory in the XF86Config
+	 * file, we respect that setting.
+	 */
+	if (pCube->pEnt->device->videoRam != 0) {
+		pScrn->videoRam = pCube->pEnt->device->videoRam;
+		from = X_CONFIG;
+	} else {
+		pScrn->videoRam = pCube->mapped_memlen; 
+		from = X_PROBED;
+	}
 
-  /* Select valid modes from those available */
-  i = xf86ValidateModes(pScrn, pScrn->monitor->Modes,
+	/* Set up clock ranges so that the xf86ValidateModes() function will not fail a mode
+	 * because of the clock requirement (because we don't use the clock value anyway)
+	 */
+
+	clockRanges = xnfcalloc(sizeof(ClockRange), 1);
+	clockRanges->next = NULL;
+	clockRanges->minClock = 10000;
+	clockRanges->maxClock = 300000;
+	clockRanges->clockIndex = -1;		/* programmable */
+	clockRanges->interlaceAllowed = TRUE;
+	clockRanges->doubleScanAllowed = TRUE;
+
+	/* Select valid modes from those available */
+	i = xf86ValidateModes(pScrn, pScrn->monitor->Modes,
 				pScrn->display->modes, clockRanges,
 				NULL, 256, 2048,
 				pScrn->bitsPerPixel, 128, 2048,
@@ -604,63 +603,64 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
 				pScrn->videoRam * 1024,
 				LOOKUP_BEST_REFRESH);
 
-  if (i == -1) {
-	 CUBEFreeRec(pScrn);
-	 return FALSE;
-  }
+	if (i == -1) {
+		CUBEFreeRec(pScrn);
+		return FALSE;
+	}
 
-  /* Prune the modes marked as invalid */
-  xf86PruneDriverModes(pScrn);
+	/* Prune the modes marked as invalid */
+	xf86PruneDriverModes(pScrn);
 
-  /* If no valid modes, return */
-  if (i == 0 || pScrn->modes == NULL) {
-	 xf86DrvMsg(pScrn->scrnIndex, X_ERROR, "No valid modes found\n");
-	 CUBEFreeRec(pScrn);
-	 return FALSE;
-  }
+	/* If no valid modes, return */
+	if (i == 0 || pScrn->modes == NULL) {
+		xf86DrvMsg(pScrn->scrnIndex, X_ERROR, "No valid modes found\n");
+		CUBEFreeRec(pScrn);
+		return FALSE;
+	}
 
   /* Set the current mode to the first in the list */
   pScrn->currentMode = pScrn->modes;
 
-  /* Do some checking, we will not support a virtual framebuffer larger than
-	  the visible screen. */
-  if (pScrn->currentMode->HDisplay != pScrn->virtualX || 
-	pScrn->currentMode->VDisplay != pScrn->virtualY ||
-	pScrn->displayWidth != pScrn->virtualX)
-  {
-	 xf86DrvMsg(pScrn->scrnIndex, X_WARNING, 
-			"Virtual size doesn't equal display size. Forcing virtual size to equal display size.\n");
-	 xf86DrvMsg(pScrn->scrnIndex, X_WARNING,
-			"(Virtual size: %dx%d, Display size: %dx%d)\n", pScrn->virtualX, pScrn->virtualY,
-			pScrn->currentMode->HDisplay, pScrn->currentMode->VDisplay);
-	 /* I'm not entirely sure this is "legal" but I hope so. */
-	 pScrn->virtualX = pScrn->currentMode->HDisplay;
-	 pScrn->virtualY = pScrn->currentMode->VDisplay;
-	 pScrn->displayWidth = pScrn->virtualX;
-  }
+	/* Do some checking, we will not support a virtual framebuffer larger than
+	 * the visible screen.
+	 */
+  if (pScrn->currentMode->HDisplay != pScrn->virtualX ||
+	  pScrn->currentMode->VDisplay != pScrn->virtualY ||
+	  pScrn->displayWidth != pScrn->virtualX) {
+		xf86DrvMsg(pScrn->scrnIndex, X_WARNING, 
+		  "Virtual size doesn't equal display size. Forcing virtual size to equal display size.\n");
+		xf86DrvMsg(pScrn->scrnIndex, X_WARNING,
+		  "(Virtual size: %dx%d, Display size: %dx%d)\n", pScrn->virtualX, pScrn->virtualY,
+		pScrn->currentMode->HDisplay, pScrn->currentMode->VDisplay);
+		/* I'm not entirely sure this is "legal" but I hope so. */
+		pScrn->virtualX = pScrn->currentMode->HDisplay;
+		pScrn->virtualY = pScrn->currentMode->VDisplay;
+		pScrn->displayWidth = pScrn->virtualX;
+	}
 
-  /* TODO (From glide driver) : Note: If I return FALSE right here, the server will not restore the console correctly,
-	  forcing a reboot. Must find that. (valid for 3.9Pi) */
+  /* TODO (From glide driver) : Note: If I return FALSE right here, the server will not restore the
+   * console correctly, forcing a reboot. Must find that. (valid for 3.9Pi)
+   */
 
-  /* Print the list of modes being used */
-  xf86PrintModes(pScrn);
+	/* Print the list of modes being used */
+	xf86PrintModes(pScrn);
 
-  /* Set display resolution */
-  xf86SetDpi(pScrn, 0, 0);
+	/* Set display resolution */
+	xf86SetDpi(pScrn, 0, 0);
 
-  /* Load fb */
-  if (xf86LoadSubModule(pScrn, "fb") == NULL) {
-	 CUBEFreeRec(pScrn);
-	 return FALSE;
-  }
+	/* Load fb */
+	if (xf86LoadSubModule(pScrn, "fb") == NULL) {
+		CUBEFreeRec(pScrn);
+		return FALSE;
+	}
 
-  /* Load the shadow framebuffer */
-  if (!xf86LoadSubModule(pScrn, "shadowfb")) {
-	 CUBEFreeRec(pScrn);
-	 return FALSE;
-  }
+	/* Load the shadow framebuffer */
+	if (!xf86LoadSubModule(pScrn, "shadowfb")) {
+		CUBEFreeRec(pScrn);
+		return FALSE;
+	}
 
-  return TRUE;
+	return TRUE;
 }
 
 
