@@ -1,5 +1,0 @@
-Makefile
-src/.libs/*
-*.lo
-*.la
-man

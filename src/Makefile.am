@@ -1,4 +1,5 @@
-#  Copyright 2005 Adam Jackson.
+#
+#  Copyright © 2005 Adam Jackson.
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a
 #  copy of this software and associated documentation files (the "Software"),
@@ -17,17 +18,19 @@
 #  ADAM JACKSON BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 #  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 #  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
 
 # this is obnoxious:
 # -module lets us name the module exactly how we want
 # -avoid-version prevents gratuitous .0.0.0 version numbers on the end
 # _ladir passes a dummy rpath to libtool so the thing will actually link
 # TODO: -nostdlib/-Bstatic/-lgcc platform magic, not installing the .a, etc.
-AM_CFLAGS = @XORG_CFLAGS@  -DMODULEDIR=\""@moduledir@\""
+AM_CFLAGS = @XORG_CFLAGS@ @CUBE_CFLAGS@
 cube_drv_la_LTLIBRARIES = cube_drv.la
+cube_drv_la_LIBADD = @CUBE_LDFLAGS@
 cube_drv_la_LDFLAGS = -module -avoid-version
 cube_drv_ladir = @moduledir@/drivers
 
 cube_drv_la_SOURCES = \
-         cube_driver.c
-
+	compat-api.h \
+	cube_driver.c

@@ -1,4 +1,5 @@
-#  Copyright 2005 Adam Jackson.
+#
+#  Copyright © 2005 Adam Jackson.
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a
 #  copy of this software and associated documentation files (the "Software"),
@@ -19,30 +20,38 @@
 #  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 # Process this file with autoconf to produce a configure script
+#
 
-AC_PREREQ(2.57)
+# Initialize Autoconf
+AC_PREREQ([2.60])
 AC_INIT([xf86-video-cube],
-        0.4.0,
+        [2.0.0],
         [https://bugs.freedesktop.org/enter_bug.cgi?product=xorg],
-        xf86-video-cube)
+        [xf86-video-cube])
 
 AC_CONFIG_SRCDIR([Makefile.am])
-AM_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_AUX_DIR(.)
 
-AM_INIT_AUTOMAKE([dist-bzip2])
+# Initialize Automake
+AM_INIT_AUTOMAKE([foreign dist-bzip2])
 
 AM_MAINTAINER_MODE
 
-# Checks for programs.
-AC_DISABLE_STATIC
-AC_PROG_LIBTOOL
-AC_PROG_CC
+# Require X.Org macros 1.8 or later for MAN_SUBSTS set by XORG_MANPAGE_SECTIONS
+m4_ifndef([XORG_MACROS_VERSION],
+	[m4_fatal([must install xorg-macros 1.8 or later before running autoconf/autogen])])
+XORG_MACROS_VERSION(1.8)
+XORG_DEFAULT_OPTIONS
+
+# Initialize libtool
+LT_INIT([disable-static])
 
 AH_TOP([#include "xorg-server.h"])
 
+# Define a configure option for an alternate module directory
 AC_ARG_WITH(xorg-module-dir,
-            AC_HELP_STRING([--with-xorg-module-dir=DIR],
+            AS_HELP_STRING([--with-xorg-module-dir=DIR],
                            [Default xorg module directory [[default=$libdir/xorg/modules]]]),
             [moduledir="$withval"],
             [moduledir="$libdir/xorg/modules"])
@@ -50,14 +59,17 @@ AC_ARG_ENABLE(pciaccess,     AS_HELP_STRING([--enable-pciaccess],
                              [Enable use of libpciaccess (default: disabled)]),
 			     [PCIACCESS=$enableval], [PCIACCESS=no])
 
-# Checks for extensions
-XORG_DRIVER_CHECK_EXT(RANDR, randrproto)
-XORG_DRIVER_CHECK_EXT(RENDER, renderproto)
+# Store the list of server defined optional extensions in REQUIRED_MODULES
+XORG_DRIVER_CHECK_EXT(DPMSExtension, xextproto)
 XORG_DRIVER_CHECK_EXT(XV, videoproto)
 
-# Checks for pkg-config packages
-PKG_CHECK_MODULES(XORG, [xorg-server >= 1.0.99.901 xproto fontsproto $REQUIRED_MODULES])
-sdkdir=$(pkg-config --variable=sdkdir xorg-server)
+# Obtain compiler/linker options for the driver dependencies
+PKG_CHECK_MODULES(XORG, [xorg-server >= 1.0.99.901 xproto $REQUIRED_MODULES])
+PKG_CHECK_MODULES(XEXT, [xextproto >= 7.0.99.1],
+                  HAVE_XEXTPROTO_71="yes"; AC_DEFINE(HAVE_XEXTPROTO_71, 1, [xextproto 7.1 available]),
+                  HAVE_XEXTPROTO_71="no")
+AM_CONDITIONAL(HAVE_XEXTPROTO_71, [ test "$HAVE_XEXTPROTO_71" = "yes" ])
+sdkdir=`$PKG_CONFIG --variable=sdkdir xorg-server`
 
 AM_CONDITIONAL(PCIACCESS, [test "x$PCIACCESS" = xyes])
 if test "x$PCIACCESS" = xyes; then
@@ -67,21 +79,24 @@ if test "x$PCIACCESS" = xyes; then
 fi
 
 # Checks for libraries.
+# Placeholder for libarary checks...
+CUBE_LDFLAGS="-Os"
+AC_SUBST([CUBE_LDFLAGS])
 
-# Checks for header files.
-AC_HEADER_STDC
 
-AC_SUBST([XORG_CFLAGS])
+#Checks for headers.
+#Placeholder for header checks...
+
+CUBE_CFLAGS="-Os"
+AC_SUBST([CUBE_CFLAGS])
 AC_SUBST([moduledir])
 
 DRIVER_NAME=cube
 AC_SUBST([DRIVER_NAME])
 
-XORG_MANPAGE_SECTIONS
-XORG_RELEASE_VERSION
-
-AC_OUTPUT([
+AC_CONFIG_FILES([
 	Makefile
 	src/Makefile
 	man/Makefile
 ])
+AC_OUTPUT
