@@ -622,7 +622,7 @@ CUBEPreInit(ScrnInfoPtr pScrn, int flags)
 
 	/* Do some checking, we will not support a virtual framebuffer larger than
 	 * the visible screen. */
-  if (pScrn->currentMode->HDisplay != pScrn->virtualX ||
+	if (pScrn->currentMode->HDisplay != pScrn->virtualX ||
 	  pScrn->currentMode->VDisplay != pScrn->virtualY ||
 	  pScrn->displayWidth != pScrn->virtualX) {
 		xf86DrvMsg(pScrn->scrnIndex, X_WARNING, 
@@ -678,12 +678,12 @@ CUBEScreenInit(SCREEN_INIT_ARGS_DECL)
 	/*
 	 * First get the ScrnInfoRec
 	 */
-  pScrn = xf86ScreenToScrn(pScreen);
+	pScrn = xf86ScreenToScrn(pScreen);
 
-  pCube = CUBEPTR(pScrn);
+	pCube = CUBEPTR(pScrn);
 
-  if (!CUBEModeInit(pScrn, pScrn->currentMode))
-	 return FALSE;
+	if (!CUBEModeInit(pScrn, pScrn->currentMode))
+		return FALSE;
 
 	/*
 	 * The next step is to setup the screen's visuals, and initialise the
